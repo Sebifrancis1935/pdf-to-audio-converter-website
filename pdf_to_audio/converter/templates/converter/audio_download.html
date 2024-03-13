@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Audio</title>
+    <style>
+        
+body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        a {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .register-button {
+            background-color: #28a745; /* Green */
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .register-button:hover {
+            background-color: #218838; /* Darker green */
+        }
+        .logout-button {
+            background-color: #dc3545; /* Red */
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #c82333; /* Darker red */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Audio Generated Successfully!</h1>
+        <a href="{% url 'audio_download' pk=uploaded_pdf.pk %}">Play</a>
+        <div class="button-container">
+            <button onclick="location.href='/upload'" class="register-button">Home</button>
+            <button onclick="location.href='/logout'" class="logout-button">Logout</button>
+        </div>
+    </div>
+</body>
+</html>
