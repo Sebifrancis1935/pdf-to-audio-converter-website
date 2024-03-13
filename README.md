@@ -1,66 +1,99 @@
-# Django PDF to Audio Converter
+# PDF to Audio Converter
 
-This Django project provides a web application to convert PDF files to audio format. Users can upload PDF files, select desired settings, and generate corresponding audio files. This README provides a guide on how to set up and use the application.
+This Django project is a web application that allows users to convert PDF files into audio format. It's a convenient tool for individuals who prefer listening to documents instead of reading them. With this application, users can upload PDF files, select their preferred settings, and generate corresponding audio files.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Development](#development)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ## Installation
 
 1. Clone this repository to your local machine:
 
-```bash
-git clone https://github.com/Sebifrancis1935/pdf-to-audio-converter-website
+git clone https://github.com/your_username/pdf-to-audio.git
 
-Navigate into the project directory:
 
-cd django-pdf-to-audio
+2. Navigate into the project directory:
 
-Install the required dependencies using pip:
+cd pdf-to-audio
+
+
+3. Create a virtual environment named `env`:
+
+python -m venv env
+
+
+4. Activate the virtual environment:
+
+On Windows:
+
+
+On macOS and Linux:
+
+source env/bin/activate
+
+
+5. Install the required dependencies using pip:
 
 pip install -r requirements.txt
 
-Usage
 
-Start the Django development server:
+## Usage
+
+1. Start the Django development server:
 
 python manage.py runserver
 
-Open a web browser and navigate to http://localhost:8000/ to access the application.
 
-Upload the PDF file you want to convert to audio.
+2. Open a web browser and navigate to `http://localhost:8000/` to access the application.
 
-Select desired settings such as language, voice, and output format.
+3. Upload the PDF file you want to convert to audio.
 
-Click on the "Convert" button to initiate the conversion process.
+4. Select desired settings such as language, voice, and output format.
 
-Once the conversion is complete, you will be able to download the generated audio file.
+5. Click on the "Convert" button to initiate the conversion process.
 
-Configuration
+6. Once the conversion is complete, you will be able to download the generated audio file.
+
+## Configuration
+
 The application comes with default settings for language, voice, and output format. However, you can customize these settings by modifying the appropriate configuration files or through the web interface.
 
-Development
+## Development
+
 If you wish to contribute to the development of this project, you can follow these steps to set up a development environment:
 
-Fork the repository on GitHub.
+1. Fork the repository on GitHub.
 
-Clone your forked repository to your local machine.
+2. Clone your forked repository to your local machine.
 
-Create a new branch for your changes:
+3. Create a new branch for your changes:
 
 git checkout -b feature/your-feature-name
 
-Make your changes and commit them to your branch:
+
+4. Make your changes and commit them to your branch:
 
 git commit -am "Add your commit message here"
 
-Push your changes to your forked repository:
+
+5. Push your changes to your forked repository:
 
 git push origin feature/your-feature-name
 
-Open a pull request on GitHub, comparing your branch with the main branch of the original repository.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
-Acknowledgements
-This project utilizes Django framework.
-Audio conversion is facilitated by libraries such as PyPDF2 and Google Text-to-Speech API.
+6. Open a pull request on GitHub, comparing your branch with the `main` branch of the original repository.
 
-This README provides an overview of how to install, use, and contribute to the Django PDF to Audio Converter project. Make sure to replace placeholders like `your_username` with appropriate values specific to your repository.
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+
+- This project utilizes the [Django](https://www.djangoproject.com/) framework.
+- Audio conversion is facilitated by libraries such as [PyPDF2](https://pythonhosted.org/PyPDF2/) and [Google Text-to-Speech API](https://cloud.google.com/text-to-speech).
