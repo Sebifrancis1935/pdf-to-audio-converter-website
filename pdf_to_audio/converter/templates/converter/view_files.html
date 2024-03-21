@@ -87,28 +87,66 @@
             margin-top: 20px;
         }
 
-        .button-container button {
+       .button-container button {
             margin: 0 10px;
             padding: 10px 20px;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            width: 150px; /* Set a fixed width for buttons */
+            height: 40px; /* Set a fixed height for buttons */
         }
-
-        /* Style for delete button */
+        
         .delete-button {
-            background-color: #dc3545; /* Red color */
-            color: #fff;
+            width: auto; /* Let the width be determined by content */
+            height: 30px; /* Set a fixed height for consistency */
+            background-color: #dc3545; /* Red color for delete button */
             border: none;
             border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s; /* Add color transition */
+            color: #fff;
+        }
+
+        .loading-text-container {
+            display: none;
+            position: absolute;
+            top: calc(100% + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 1s linear infinite;
+        }
+        .loading-text {
+            font-size: 14px;
+            color: #007bff;
+            margin-top: 10px;
         }
 
         .delete-button:hover {
             background-color: #c82333; /* Darker red on hover */
         }
+       .convert-form {
+            display: flex;
+        }
+
+        .convert-form select {
+            margin-right: 10px;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .convert-form button {
+            padding: 8px 20px;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .convert-form button:hover {
+            background-color: #0056b3;
+        } 
     </style>
 </head>
 <body>
@@ -119,45 +157,73 @@
                 <tr>
                     <th>PDF Name</th>
                     <th>Audio Name</th>
+                    <th>Converter</th>
                     <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {% for uploaded_pdf in uploaded_pdfs %}
-<tr>
-    <td>
-        {% if uploaded_pdf.file %}
-            <a href="{{ uploaded_pdf.file.url }}">{{ uploaded_pdf.file.name }}</a>
-        {% else %}
-            No PDF file associated
-        {% endif %}
-    </td>
-    <td>
-        {% if uploaded_pdf.audio_file %}
-            <a href="{{ uploaded_pdf.audio_file.url }}">{{ uploaded_pdf.audio_file.name }}</a>
-        {% else %}
-            No audio file associated
-        {% endif %}
-    </td>
-    <td>
-        <form action="{% url 'delete_file' %}" method="post">
-            {% csrf_token %}
-            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
-            {% if uploaded_pdf.audio_file %}
-                <input type="hidden" name="audio_id" value="{{ uploaded_pdf.audio_file.id }}">
-            {% endif %}
-            <button type="submit" name="delete_file" class="delete-button">Delete</button>
-        </form>
-    </td>
-</tr>
-{% endfor %}
-
+                <tr>
+                    <td>
+                        {% if uploaded_pdf.file %}
+                        <a href="{{ uploaded_pdf.file.url }}">{{ uploaded_pdf.file.name }}</a>
+                        {% else %}
+                        No PDF file associated
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if uploaded_pdf.audio_file %}
+                        <a href="{{ uploaded_pdf.audio_file.url }}">{{ uploaded_pdf.audio_file.name }}</a>
+                        {% else %}
+                        No audio file associated
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form class="convert-form" action="{% url 'pdf_to_audio' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
+                             <select name="language" id="id_language" required>
+                                <option value="en">English</option>
+                                <option value="es">Spanish</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="pt">Portuguese</option>
+                                <option value="nl">Dutch</option>
+                                <option value="ja">Japanese</option>
+                                <option value="ko">Korean</option>
+                                <option value="zh">Chinese</option>
+                            </select>
+                            <button type="submit">Convert</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{% url 'delete_file' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
+                            {% if uploaded_pdf.audio_file %}
+                            <input type="hidden" name="audio_id" value="{{ uploaded_pdf.audio_file.id }}">
+                            {% endif %} 
+                            <button type="submit" name="delete_file" class="delete-button">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="button-container">
             <button onclick="location.href='/upload/'" class="register-button">Home</button>
             <button onclick="location.href='/logout/'" class="logout-button">Logout</button> <!-- Apply logout-button class -->
         </div>
+        <div class="loading-text-container" id="loadingTextContainer">
+        <div class="loading-text">Your audio is generating...</div>
     </div>
+    </div>
+
+    <script>
+        function showLoadingText() {
+            document.getElementById("loadingTextContainer").classList.add("show");
+        }
+    </script>
 </body>
 </html>

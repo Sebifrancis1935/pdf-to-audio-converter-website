@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import UploadedPDF
 from PyPDF2 import PdfReader
 from gtts import gTTS
@@ -53,6 +54,32 @@ def convert_pdf_to_audio(request):
         os.makedirs(audio_directory, exist_ok=True)
         audio_file_path = os.path.join(
             audio_directory, uploaded_pdf.file.name.split('/')[-1].replace('.pdf', '.mp3'))
+        tts.save(audio_file_path)
+
+        uploaded_pdf.audio_file = audio_file_path
+        uploaded_pdf.save()
+        return redirect('view_files')
+
+    return render(request, 'converter/upload_pdf.html')
+
+
+def pdf_to_audio(request):
+    if request.method == 'POST':
+        pdf_id = request.POST.get('pdf_id')
+        language = request.POST.get('language')
+        uploaded_pdf = get_object_or_404(UploadedPDF, pk=pdf_id)
+
+        with open(uploaded_pdf.file.path, 'rb') as pdf_file:
+            pdf = PdfReader(pdf_file)
+            text = ''
+            for page_num in range(len(pdf.pages)):
+                text += pdf.pages[page_num].extract_text()
+
+        tts = gTTS(text, lang=language)
+        audio_directory = 'audios'
+        os.makedirs(audio_directory, exist_ok=True)
+        audio_file_path = os.path.join(
+            audio_directory, uploaded_pdf.file.name.split('/')[-1].replace('.pdf', f'_{language}.mp3'))
         tts.save(audio_file_path)
 
         uploaded_pdf.audio_file = audio_file_path
