@@ -124,27 +124,34 @@
             </thead>
             <tbody>
                 {% for uploaded_pdf in uploaded_pdfs %}
-                <tr>
-                    <td><a href="{{ uploaded_pdf.file.url }}">{{ uploaded_pdf.file.name }}</a></td>
-                    <td>
-                        {% if uploaded_pdf.audio_file %}
-                            <a href="{{ uploaded_pdf.audio_file.url }}">{{ uploaded_pdf.audio_file.name }}</a>
-                        {% else %}
-                            No audio file associated
-                        {% endif %}
-                    </td>
-                    <td>
-                        <form action="{% url 'delete_file' %}" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
-                            {% if uploaded_pdf.audio_file %}
-                                <input type="hidden" name="audio_id" value="{{ uploaded_pdf.audio_file.id }}">
-                            {% endif %} 
-                            <button type="submit" name="delete_file" class="delete-button">Delete</button> <!-- Apply delete-button class -->
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
+<tr>
+    <td>
+        {% if uploaded_pdf.file %}
+            <a href="{{ uploaded_pdf.file.url }}">{{ uploaded_pdf.file.name }}</a>
+        {% else %}
+            No PDF file associated
+        {% endif %}
+    </td>
+    <td>
+        {% if uploaded_pdf.audio_file %}
+            <a href="{{ uploaded_pdf.audio_file.url }}">{{ uploaded_pdf.audio_file.name }}</a>
+        {% else %}
+            No audio file associated
+        {% endif %}
+    </td>
+    <td>
+        <form action="{% url 'delete_file' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
+            {% if uploaded_pdf.audio_file %}
+                <input type="hidden" name="audio_id" value="{{ uploaded_pdf.audio_file.id }}">
+            {% endif %}
+            <button type="submit" name="delete_file" class="delete-button">Delete</button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+
             </tbody>
         </table>
         <div class="button-container">
