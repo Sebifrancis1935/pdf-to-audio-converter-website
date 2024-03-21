@@ -103,22 +103,26 @@ def delete_file(request):
         try:
             pdf_obj = UploadedPDF.objects.get(pk=pdf_id)
 
-            if audio_id:
-                audio_obj = UploadedPDF.objects.get(pk=audio_id)
-                if audio_obj.audio_file:
-                    audio_file_path = audio_obj.audio_file.path
-                    if os.path.exists(audio_file_path):
-                        os.remove(audio_file_path)
-                    audio_obj.delete()
+            # Check if the PDF object has an associated audio file
+            if pdf_obj.audio_file:
+                # Delete the associated audio file
+                if os.path.exists(pdf_obj.audio_file.path):
+                    os.remove(pdf_obj.audio_file.path)
+                pdf_obj.audio_file.delete()
 
+            # Delete the PDF file itself
             if pdf_obj.file:
-                pdf_file_path = pdf_obj.file.path
-                if os.path.exists(pdf_file_path):
-                    os.remove(pdf_file_path)
+                if os.path.exists(pdf_obj.file.path):
+                    os.remove(pdf_obj.file.path)
+                pdf_obj.file.delete()
 
+            # Finally, delete the PDF object from the database
             pdf_obj.delete()
+
             return HttpResponseRedirect(reverse('view_files'))
         except Exception as e:
+            # Handle exceptions
             return HttpResponseRedirect(reverse('view_files'))
     else:
+        # Redirect to view_files in case of GET request
         return HttpResponseRedirect(reverse('view_files'))
