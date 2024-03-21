@@ -87,7 +87,7 @@
             margin-top: 20px;
         }
 
-       .button-container button {
+        .button-container button {
             margin: 0 10px;
             padding: 10px 20px;
             color: #fff;
@@ -97,7 +97,7 @@
             width: 150px; /* Set a fixed width for buttons */
             height: 40px; /* Set a fixed height for buttons */
         }
-        
+
         .delete-button {
             width: auto; /* Let the width be determined by content */
             height: 30px; /* Set a fixed height for consistency */
@@ -115,6 +115,7 @@
             transform: translateX(-50%);
             animation: bounce 1s linear infinite;
         }
+
         .loading-text {
             font-size: 14px;
             color: #007bff;
@@ -124,7 +125,8 @@
         .delete-button:hover {
             background-color: #c82333; /* Darker red on hover */
         }
-       .convert-form {
+
+        .convert-form {
             display: flex;
         }
 
@@ -179,10 +181,10 @@
                         {% endif %}
                     </td>
                     <td>
-                        <form class="convert-form" action="{% url 'pdf_to_audio' %}" method="post">
+                        <form class="convert-form" action="{% url 'pdf_to_audio' %}" method="post" onsubmit="showLoadingText()">
                             {% csrf_token %}
                             <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
-                             <select name="language" id="id_language" required>
+                            <select name="language" id="id_language" required>
                                 <option value="en">English</option>
                                 <option value="es">Spanish</option>
                                 <option value="fr">French</option>
@@ -215,15 +217,6 @@
             <button onclick="location.href='/upload/'" class="register-button">Home</button>
             <button onclick="location.href='/logout/'" class="logout-button">Logout</button> <!-- Apply logout-button class -->
         </div>
-        <div class="loading-text-container" id="loadingTextContainer">
-        <div class="loading-text">Your audio is generating...</div>
     </div>
-    </div>
-
-    <script>
-        function showLoadingText() {
-            document.getElementById("loadingTextContainer").classList.add("show");
-        }
-    </script>
 </body>
 </html>
