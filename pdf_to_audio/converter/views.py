@@ -1,13 +1,12 @@
-from django.shortcuts import render
-from django.contrib.auth import logout as auth_logout
-import os
+from django.http import HttpResponseRedirect, FileResponse
+from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from django.shortcuts import render, redirect
 from .models import UploadedPDF
 from PyPDF2 import PdfReader
 from gtts import gTTS
-from django.http import FileResponse
+import os
 
 
 def register(request):
@@ -41,34 +40,49 @@ def convert_pdf_to_audio(request):
         file = request.FILES.get('file')
         language = request.POST.get('language')
         uploaded_pdf = UploadedPDF.objects.create(file=file, language=language)
-        pdf = PdfReader(uploaded_pdf.file)
-        text = ''
-        for page_num in range(len(pdf.pages)):
-            text += pdf.pages[page_num].extract_text()
+
+        # Ensure file handle is properly closed after use
+        with open(uploaded_pdf.file.path, 'rb') as pdf_file:
+            pdf = PdfReader(pdf_file)
+            text = ''
+            for page_num in range(len(pdf.pages)):
+                text += pdf.pages[page_num].extract_text()
+
         tts = gTTS(text, lang=uploaded_pdf.language)
         audio_directory = 'audios'
         os.makedirs(audio_directory, exist_ok=True)
         audio_file_path = os.path.join(
             audio_directory, uploaded_pdf.file.name.split('/')[-1].replace('.pdf', '.mp3'))
         tts.save(audio_file_path)
+
         uploaded_pdf.audio_file = audio_file_path
         uploaded_pdf.save()
         return redirect('view_files')
+
     return render(request, 'converter/upload_pdf.html')
 
 
 def view_files(request):
-    pdf_files = os.listdir('pdfs')
-    audio_files = os.listdir('audios')
+    uploaded_pdfs = UploadedPDF.objects.all()
 
-    # Combine PDF and audio files into a single list of tuples
-    files = zip(pdf_files, audio_files)
+    if request.method == 'POST' and 'delete_file' in request.POST:
+        pdf_id = request.POST.get('pdf_id')
+        audio_id = request.POST.get('audio_id')
+        try:
+            pdf_obj = UploadedPDF.objects.get(pk=pdf_id)
+            if audio_id:
+                audio_obj = UploadedPDF.objects.get(pk=audio_id)
+                if audio_obj.audio_file:
+                    os.remove(audio_obj.audio_file.path)
+                audio_obj.delete()
+            if pdf_obj.file:
+                os.remove(pdf_obj.file.path)
+            pdf_obj.delete()
+            return HttpResponseRedirect(reverse('view_files'))
+        except Exception as e:
+            return HttpResponseRedirect(reverse('view_files'))
 
-    return render(request, 'converter/view_files.html', {'files': files})
-
-    pdf_files = os.listdir('pdfs')
-    audio_files = os.listdir('audios')
-    return render(request, 'converter/view_files.html', {'pdf_files': pdf_files, 'audio_files': audio_files})
+    return render(request, 'converter/view_files.html', {'uploaded_pdfs': uploaded_pdfs})
 
 
 def download_audio(request, pk):
@@ -80,3 +94,31 @@ def download_audio(request, pk):
 def user_logout(request):
     auth_logout(request)
     return redirect('login')
+
+
+def delete_file(request):
+    if request.method == 'POST':
+        pdf_id = request.POST.get('pdf_id')
+        audio_id = request.POST.get('audio_id')
+        try:
+            pdf_obj = UploadedPDF.objects.get(pk=pdf_id)
+
+            if audio_id:
+                audio_obj = UploadedPDF.objects.get(pk=audio_id)
+                if audio_obj.audio_file:
+                    audio_file_path = audio_obj.audio_file.path
+                    if os.path.exists(audio_file_path):
+                        os.remove(audio_file_path)
+                    audio_obj.delete()
+
+            if pdf_obj.file:
+                pdf_file_path = pdf_obj.file.path
+                if os.path.exists(pdf_file_path):
+                    os.remove(pdf_file_path)
+
+            pdf_obj.delete()
+            return HttpResponseRedirect(reverse('view_files'))
+        except Exception as e:
+            return HttpResponseRedirect(reverse('view_files'))
+    else:
+        return HttpResponseRedirect(reverse('view_files'))

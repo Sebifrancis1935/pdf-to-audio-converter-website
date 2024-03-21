@@ -55,17 +55,17 @@
         }
 
         .logout-button {
-            background-color: #dc3545; /* Red color */
+            background-color: #28a745; /* Green color */
             color: #fff;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s; /* Add color transition */
         }
 
         .logout-button:hover {
-            background-color: #c82333; /* Darker red on hover */
+            background-color: #dc3545; /* Red color on hover */
         }
 
         .register-button {
@@ -95,6 +95,20 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        /* Style for delete button */
+        .delete-button {
+            background-color: #dc3545; /* Red color */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s; /* Add color transition */
+        }
+
+        .delete-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
     </style>
 </head>
 <body>
@@ -105,20 +119,37 @@
                 <tr>
                     <th>PDF Name</th>
                     <th>Audio Name</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
-                {% for pdf_file, audio_file in files %}
+                {% for uploaded_pdf in uploaded_pdfs %}
                 <tr>
-                    <td><a href="/pdfs/{{ pdf_file }}">{{ pdf_file }}</a></td>
-                    <td><a href="/audios/{{ audio_file }}">{{ audio_file }}</a></td>
+                    <td><a href="{{ uploaded_pdf.file.url }}">{{ uploaded_pdf.file.name }}</a></td>
+                    <td>
+                        {% if uploaded_pdf.audio_file %}
+                            <a href="{{ uploaded_pdf.audio_file.url }}">{{ uploaded_pdf.audio_file.name }}</a>
+                        {% else %}
+                            No audio file associated
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{% url 'delete_file' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="pdf_id" value="{{ uploaded_pdf.id }}">
+                            {% if uploaded_pdf.audio_file %}
+                                <input type="hidden" name="audio_id" value="{{ uploaded_pdf.audio_file.id }}">
+                            {% endif %} 
+                            <button type="submit" name="delete_file" class="delete-button">Delete</button> <!-- Apply delete-button class -->
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <div class="button-container">
             <button onclick="location.href='/upload/'" class="register-button">Home</button>
-            <button onclick="location.href='/logout/'" class="logout-button">Logout</button>
+            <button onclick="location.href='/logout/'" class="logout-button">Logout</button> <!-- Apply logout-button class -->
         </div>
     </div>
 </body>
