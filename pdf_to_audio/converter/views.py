@@ -10,6 +10,30 @@ from gtts import gTTS
 import os
 
 
+def index(request):
+    return render(request, 'index.html')
+
+
+def about_us(request):
+    return render(request, 'index_about.html')
+
+
+def contact_us(request):
+    return render(request, 'index_contact.html')
+
+
+def contact(request):
+    return render(request, 'contact.html')
+
+
+def home(request):
+    return render(request, 'home.html')
+
+
+def about(request):
+    return render(request, 'about.html')
+
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -18,7 +42,7 @@ def register(request):
             return redirect('login')
     else:
         form = UserCreationForm()
-    return render(request, 'converter/registration.html', {'form': form})
+    return render(request,  'user_registration.html', {'form': form})
 
 
 def user_login(request):
@@ -30,10 +54,12 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                return redirect('upload_pdf')
+                return render(request, 'home.html')
+
+                # return redirect('upload_pdf')
     else:
         form = AuthenticationForm()
-    return render(request, 'converter/login.html', {'form': form})
+    return render(request,  'user_login.html', {'form': form})
 
 
 def convert_pdf_to_audio(request):
@@ -60,7 +86,7 @@ def convert_pdf_to_audio(request):
         uploaded_pdf.save()
         return redirect('view_files')
 
-    return render(request, 'converter/upload_pdf.html')
+    return render(request,  'upload_pdf.html')
 
 
 def pdf_to_audio(request):
@@ -86,7 +112,7 @@ def pdf_to_audio(request):
         uploaded_pdf.save()
         return redirect('view_files')
 
-    return render(request, 'converter/upload_pdf.html')
+    return render(request,  'upload_pdf.html')
 
 
 def view_files(request):
@@ -109,7 +135,7 @@ def view_files(request):
         except Exception as e:
             return HttpResponseRedirect(reverse('view_files'))
 
-    return render(request, 'converter/view_files.html', {'uploaded_pdfs': uploaded_pdfs})
+    return render(request,  'view_files.html', {'uploaded_pdfs': uploaded_pdfs})
 
 
 def download_audio(request, pk):

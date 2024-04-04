@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>User Registration</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+    <!-- Additional Styles from the second template -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 350px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 30px);
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .errorlist {
+            color: red;
+            margin: 5px 0;
+            padding: 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 48%; /* Adjust as needed */
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .register-button {
+            background-color: #4CAF50; /* Color for register button */
+        }
+
+        .login-button {
+            background-color: #008CBA; /* Color for login button */
+        }
+
+        button:hover {
+            transform: translateY(1px);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your existing HTML content here -->
+
+    <!-- User Registration Form -->
+    <div class="container-xxl py-5">
+        <h1 class="text-center mb-5">User Sign UP</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2>Register</h2>
+                    <p>
+                        <label for="id_username">Username:</label>
+                        <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username">
+                        <span class="errorlist" id="username-error"></span>
+                    </p>
+
+                    <p style="position: relative;">
+                        <label for="id_password1">Password:</label>
+                        <input type="password" name="password1" autocomplete="new-password" required aria-describedby="id_password1_helptext" id="id_password1">
+                        <span class="errorlist" id="password1-error"></span>
+                    </p>
+
+                    <p style="position: relative;">
+                        <label for="id_password2">Password confirmation:</label>
+                        <input type="password" name="password2" autocomplete="new-password" required aria-describedby="id_password2_helptext" id="id_password2">
+                        <span class="errorlist" id="password2-error"></span>
+                    </p>
+                    <button type="submit" class="register-button">Register</button>
+                    <button onclick="location.href='/login/'" class="login-button">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- User Registration Form End -->
+
+    <!-- JavaScript Integration -->
+    <script>
+        document.getElementById('id_username').addEventListener('input', function() {
+            var usernameInput = this.value;
+            var errorSpan = document.getElementById('username-error');
+            if (usernameInput.length < 4) {
+                errorSpan.textContent = 'Username must be at least 4 characters.';
+            } else {
+                errorSpan.textContent = '';
+            }
+        });
+
+        document.getElementById('id_password1').addEventListener('input', function() {
+            var passwordInput = this.value;
+            var errorSpan = document.getElementById('password1-error');
+            var containsCapital = /[A-Z]/.test(passwordInput);
+            var containsSymbol = /[!@#$%^&*]/.test(passwordInput);
+            var isMinLength = passwordInput.length >= 8;
+            
+            if (!containsCapital) {
+                errorSpan.textContent = 'Password must contain at least one capital letter.';
+            } else if (!containsSymbol) {
+                errorSpan.textContent = 'Password must contain at least one symbol (!@#$%^&*).';
+            } else if (!isMinLength) {
+                errorSpan.textContent = 'Password must be at least 8 characters long.';
+            } else {
+                errorSpan.textContent = '';
+            }
+        });
+
+        document.getElementById('id_password2').addEventListener('input', function() {
+            var password2Input = this.value;
+            var password1Input = document.getElementById('id_password1').value;
+            var errorSpan = document.getElementById('password2-error');
+            if (password2Input !== password1Input) {
+                errorSpan.textContent = 'Passwords do not match.';
+            } else {
+                errorSpan.textContent = '';
+            }
+        });
+    </script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
