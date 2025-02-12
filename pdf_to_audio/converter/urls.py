@@ -23,6 +23,9 @@ urlpatterns = [
     path('delete-file/', views.delete_file, name='delete_file'),
     path('pdf-to-audio/', views.pdf_to_audio,
          name='pdf_to_audio'),
+     path('upload-audio/', views.convert_audio_to_text, name='upload_audio'),
+
+
 
 ]
 if settings.DEBUG:

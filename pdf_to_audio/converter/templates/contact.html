@@ -1,4 +1,4 @@
-{% load static  %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +16,9 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -35,7 +36,7 @@
 
 <body>
     <div class="container-xxl bg-white p-0">
-       
+
 
 
         <!-- Navbar Start -->
@@ -43,18 +44,27 @@
             <a href="/home/" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                 <h1 class="m-0 text-primary"> PdfToAudio</h1>
             </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="/home/" class="nav-item nav-link">Home</a>
-                    <a href="/about/" class="nav-item nav-link">About</a>
-                    <a href="/upload/" class="nav-item nav-link">Upload</a>
+                    <a href="/home/" class="nav-item nav-link ">Home</a>
+                    <a href="/about/" class="nav-item nav-link ">About</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">UPLOAD</a>
+                        <div class="dropdown-menu">
+                            <a href="/upload/" class="dropdown-item ">Upload PDF</a>
+                            <a href="/upload-audio/" class="dropdown-item ">Upload Audio</a>
+                        </div>
+                    </div>
                     <a href="/view-files/" class="nav-item nav-link">Files</a>
                     <a href="/contact/" class="nav-item nav-link active">Contact</a>
                 </div>
- <a href="/index/" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign Out<i class="fa fa-arrow-right ms-3"></i></a>            </div>
+                <a href="/index/" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign Out<i
+                        class="fa fa-arrow-right ms-3"></i></a>
+            </div>
         </nav>
         <!-- Navbar End -->
 
@@ -84,7 +94,8 @@
                         <div class="row gy-4">
                             <div class="col-md-4 wow fadeIn" data-wow-delay="0.1s">
                                 <div class="d-flex align-items-center bg-light rounded p-4">
-                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3"
+                                        style="width: 45px; height: 45px;">
                                         <i class="fa fa-map-marker-alt text-primary"></i>
                                     </div>
                                     <span>Thrissur, Kerala, India</span>
@@ -92,15 +103,17 @@
                             </div>
                             <div class="col-md-4 wow fadeIn" data-wow-delay="0.3s">
                                 <div class="d-flex align-items-center bg-light rounded p-4">
-                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3"
+                                        style="width: 45px; height: 45px;">
                                         <i class="fa fa-envelope-open text-primary"></i>
                                     </div>
-                                    <span>thrissurpanchayaths@gmail.com</span>
+                                    <span>easyconverter@gmail.com</span>
                                 </div>
                             </div>
                             <div class="col-md-4 wow fadeIn" data-wow-delay="0.5s">
                                 <div class="d-flex align-items-center bg-light rounded p-4">
-                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
+                                    <div class="bg-white border rounded d-flex flex-shrink-0 align-items-center justify-content-center me-3"
+                                        style="width: 45px; height: 45px;">
                                         <i class="fa fa-phone-alt text-primary"></i>
                                     </div>
                                     <span>+91 96345 67089</span>
@@ -108,16 +121,19 @@
                             </div>
                         </div>
                     </div>
-                   <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-    <iframe class="position-relative rounded w-100 h-100"
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3897.6115589467165!2d76.3330858148231!3d9.684404892452617!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0836e73b6317d7%3A0x4ff91d122ba902f0!2sCherthala%20Government%20Polytechnic%20College!5e0!3m2!1sen!2sin!4v1648107646163"
-        frameborder="0" style="min-height: 400px; border:0;" allowfullscreen="" aria-hidden="false"
-        tabindex="0"></iframe>
-</div>
+                    <div class="col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <iframe class="position-relative rounded w-100 h-100"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.787130608577!2d76.07112831478903!3d10.657861492406607!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba79817fdccd53d%3A0x93c5e1f7673ec24e!2sKunnamkulam%2C%20Thrissur%2C%20Kerala!5e0!3m2!1sen!2sin!4v1648107646163"
+                            frameborder="0" style="min-height: 400px; border:0;" allowfullscreen="" aria-hidden="false"
+                            tabindex="0"></iframe>
+
+                    </div>
 
                     <div class="col-md-6">
                         <div class="wow fadeInUp" data-wow-delay="0.5s">
-                            <p class="mb-4">Feel free to reach out to us with any inquiries or feedback. Our team is here to assist you with any questions you may have. Contact us today for prompt and friendly assistance.</p>
+                            <p class="mb-4">Feel free to reach out to us with any inquiries or feedback. Our team is
+                                here to assist you with any questions you may have. Contact us today for prompt and
+                                friendly assistance.</p>
                             <form>
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -128,7 +144,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                            <input type="email" class="form-control" id="email"
+                                                placeholder="Your Email">
                                             <label for="email">Your Email</label>
                                         </div>
                                     </div>
@@ -140,7 +157,8 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                                            <textarea class="form-control" placeholder="Leave a message here"
+                                                id="message" style="height: 150px"></textarea>
                                             <label for="message">Message</label>
                                         </div>
                                     </div>
@@ -193,8 +211,10 @@
                         <h5 class="text-white mb-4">Newsletter</h5>
                         <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
                         <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
+                                placeholder="Your email">
+                            <button type="button"
+                                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                         </div>
                     </div>
                 </div>
@@ -203,10 +223,10 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-							
-							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">

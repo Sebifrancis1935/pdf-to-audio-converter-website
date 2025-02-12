@@ -1,11 +1,11 @@
-{% load static  %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Home page</title>
+    <title>Upload Audio</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -16,8 +16,9 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -31,104 +32,172 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        /* Style for form elements */
+        form {
+            margin-top: 50px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="file"]:focus,
+        select:focus {
+            border-color: #007bff;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        .loading-text-container {
+            display: none;
+            position: absolute;
+            top: calc(100% + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 1s linear infinite;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        @keyframes bounce {
+            0% {
+                top: calc(100% + 20px);
+            }
+
+            50% {
+                top: calc(100% + 30px);
+            }
+
+            100% {
+                top: calc(100% + 20px);
+            }
+        }
+
+        .loading-text-container.show {
+            display: block;
+        }
+    </style>
+
 </head>
 
 <body>
     <div class="container-xxl bg-white p-0">
-        
-
 
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
             <a href="/home/" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
                 <h1 class="m-0 text-primary"> PdfToAudio</h1>
             </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="/home/" class="nav-item nav-link active">Home</a>
-                    <a href="/about/" class="nav-item nav-link">About</a>
+                    <a href="/home/" class="nav-item nav-link ">Home</a>
+                    <a href="/about/" class="nav-item nav-link ">About</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">UPLOAD</a>
-                            <div class="dropdown-menu">
-                                <a href="/upload/" class="dropdown-item ">Upload PDF</a>
-                                <a href="/upload-audio/" class="dropdown-item ">Upload Audio</a>
-                            </div>
+                        <div class="dropdown-menu">
+                            <a href="/upload/" class="dropdown-item ">Upload PDF</a>
+                            <a href="/upload-audio/" class="dropdown-item ">Upload Audio</a>
                         </div>
-                    <a href="/view-files/" class="nav-item nav-link">Files</a>
-                    <a href="/contact/" class="nav-item nav-link">Contact</a>
+                    </div>
+                    <a href="/view-files/" class="nav-item nav-link ">Files</a>
+                    <a href="/contact/" class="nav-item nav-link ">Contact</a>
                 </div>
-                <a href="/index/" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign Out<i class="fa fa-arrow-right ms-3"></i></a>
+                <a href="/index/" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Sign Out<i
+                        class="fa fa-arrow-right ms-3"></i></a>
             </div>
         </nav>
         <!-- Navbar End -->
 
-
-        <!-- Carousel Start -->
-        <div class="container-fluid p-0">
-            <div class="owl-carousel header-carousel position-relative">
-                <div class="owl-carousel-item position-relative">
-                    <img class="img-fluid" src="{% static 'img/carousel-1.jpg' %}" alt="">
-                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-10 col-lg-8">
-                                     <h1 class="display-3 text-white animated slideInDown mb-4">PDFs Transformed, Voices Awakened!</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">"Empowering Auditory Experiences, Instantly Accessible.<br> Explore Your Digital Realm Today..."</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Header End -->
+        <div class="container-xxl py-5 bg-dark page-header mb-5">
+            <div class="container my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Upload Audio</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-uppercase">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Upload</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Upload Audio</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-        <!-- Carousel End -->
+        <br><br>
+        <!-- Header End -->
 
+        <!-- Form Start -->
+        <div class="container">
+            <form method="post" enctype="multipart/form-data" onsubmit="showLoadingText()">
+                {% csrf_token %}
+                <label for="id_file">Select an Audio File:</label>
+                <input type="file" name="audio_file" id="id_audio_file" accept=".mp3,.wav,.aac,.ogg,.flac,.m4a"
+                    required>
+                <label for="id_language">Choose Language:</label>
+                <select name="language" id="id_language" required>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="it">Italian</option>
+                    <option value="pt">Portuguese</option>
+                    <option value="nl">Dutch</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="zh">Chinese</option>
+                </select>
+                <button type="submit">Upload Audio</button><br><br><br>
 
-         <!-- About Start -->
-        <div class="container-xxl py-5">
-            <div class="container">
-                <div class="row g-5 align-items-center">
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                        <div class="row g-0 about-bg rounded overflow-hidden">
-                            <div class="col-6 text-start">
-                                <img class="img-fluid w-100" src="{% static 'img/ab5.jpg' %}">
-                            </div>
-                            <div class="col-6 text-start">
-                                <img class="img-fluid" src="{% static 'img/ab6.jpg' %}" style="width: 85%; margin-top: 15%;">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid" src="{% static 'img/ab7.jpg' %}" style="width: 85%;">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid w-100" src="{% static 'img/ab8.jpg' %}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                        <h1 class="mb-4">Seamless Solutions for Effortless Conversions</h1>
-
-
-<p class="mb-4" style="text-align: justify;">
-    Our project aims to simplify the conversion of PDFs into audio format, enhancing accessibility for all users. Through streamlined processes and user-friendly features, we ensure that information becomes readily available to those who rely on auditory formats. By empowering communities with accessible tools, we contribute to a more inclusive digital landscape where everyone can effortlessly access information.
-</p>
-
-                        <p><i class="fa fa-check text-primary me-3"></i>Enhanced accessibility through audio conversion</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Simplified process for converting PDFs to audio</p>
-                        <p><i class="fa fa-check text-primary me-3"></i>Promotion of inclusivity through accessible tools</p>
-                        <a class="btn btn-primary py-3 px-5 mt-3" href="/about/">Read More</a>
-                    </div>
+                <!-- Added -->
+                <div class="loading-text-container" id="loadingTextContainer">
+                    <div class="loading-text">Your audio is uploading...</div>
                 </div>
-            </div>
+            </form>
+
+
+            <script>
+                function showLoadingText() {
+                    document.getElementById("loadingTextContainer").classList.add("show");
+                }
+            </script>
         </div>
-        <!-- About End -->
-
-
-       
+        <!-- Form End -->
 
         <!-- Footer Start -->
+        <br>
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
@@ -164,8 +233,10 @@
                         <h5 class="text-white mb-4">Newsletter</h5>
                         <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
                         <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text"
+                                placeholder="Your email">
+                            <button type="button"
+                                class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
                         </div>
                     </div>
                 </div>
@@ -174,10 +245,10 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-							
-							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
+                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved.
+
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a>
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
@@ -192,7 +263,6 @@
             </div>
         </div>
         <!-- Footer End -->
-
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

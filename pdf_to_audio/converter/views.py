@@ -10,6 +10,64 @@ from gtts import gTTS
 import os
 
 
+import os
+from django.shortcuts import render, redirect
+from django.conf import settings
+from speech_recognition import Recognizer, AudioFile
+from .models import UploadedPDF
+from .forms import UploadAudioForm
+
+def convert_audio_to_text(request):
+    if request.method == 'POST':
+        form = UploadAudioForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the uploaded audio file
+            uploaded_audio = form.save()
+
+            # Define the audio file path
+            audio_file_path = uploaded_audio.audio_file.path
+
+            # Initialize SpeechRecognition
+            recognizer = Recognizer()
+            try:
+                # Process the audio file using SpeechRecognition
+                with AudioFile(audio_file_path) as source:
+                    audio_data = recognizer.record(source)  # Record the audio data
+                    text = recognizer.recognize_google(audio_data)  # Convert to text
+
+                # Define the path to save the text file
+                text_file_name = os.path.splitext(uploaded_audio.audio_file.name)[0] + '.txt'
+                text_file_path = os.path.join(settings.MEDIA_ROOT, 'texts', text_file_name)
+
+                # Ensure the directory exists
+                os.makedirs(os.path.dirname(text_file_path), exist_ok=True)
+
+                # Save the recognized text to a text file
+                with open(text_file_path, 'w') as text_file:
+                    text_file.write(text)
+
+                # Update the model to store the text file's relative path
+                uploaded_audio.text_file = os.path.join('texts', text_file_name)
+                uploaded_audio.save()
+
+                # Render a page to download or display the text file
+                return render(request, 'download_text.html', {
+                    'text_file_url': os.path.join(settings.MEDIA_URL, 'texts', text_file_name),
+                    'recognized_text': text
+                })
+
+            except Exception as e:
+                # Handle errors during audio processing
+                return render(request, 'error.html', {'error': f"Error processing audio: {str(e)}"})
+        else:
+            return render(request, 'error.html', {'error': 'Invalid form submission'})
+    else:
+        form = UploadAudioForm()
+
+    return render(request, 'upload_audio.html', {'form': form})
+
+
+
 def index(request):
     return render(request, 'index.html')
 
