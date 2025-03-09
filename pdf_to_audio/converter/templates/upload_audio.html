@@ -163,9 +163,9 @@
         <div class="container">
             <form method="post" enctype="multipart/form-data" onsubmit="showLoadingText()">
                 {% csrf_token %}
-                <label for="id_file">Select an Audio File:</label>
-                <input type="file" name="audio_file" id="id_audio_file" accept=".mp3,.wav,.aac,.ogg,.flac,.m4a"
-                    required>
+                <label for="id_file">Select a PDF File:</label>
+                <input type="file" name="file" id="id_file" accept=".pdf" required>
+
                 <label for="id_language">Choose Language:</label>
                 <select name="language" id="id_language" required>
                     <option value="en">English</option>
@@ -179,14 +179,14 @@
                     <option value="ko">Korean</option>
                     <option value="zh">Chinese</option>
                 </select>
-                <button type="submit">Upload Audio</button><br><br><br>
 
-                <!-- Added -->
+                <button type="submit">Convert PDF to Audio</button><br><br><br>
+
+                <!-- Loading Text -->
                 <div class="loading-text-container" id="loadingTextContainer">
-                    <div class="loading-text">Your audio is uploading...</div>
+                    <div class="loading-text">Your PDF is being converted...</div>
                 </div>
             </form>
-
 
             <script>
                 function showLoadingText() {
